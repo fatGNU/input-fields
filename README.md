@@ -56,13 +56,16 @@ required - is used to make sure that the datefield is required!
  the callback method.
  
  ### NOTE:
- When accessing the input-field reference from outside the `<InputField />` component in question,
- use the notation
- `<your-chosen-reference-object>.current.internalFieldReference`
- where `<your-chosen-reference-object>` is replaced with the variable that hosts the react reference.
- `current` is the current reference instance of the desired reference
- 'internalFieldReference' is an actual variable hosting the InputField internal reference.
- That name MUST BE PRESENT WHEN ACCESSING SPECIFIC HTMLInputElement instances.
+ In order to drill down a component and get a reference to the proper HTMLInputElement that is in use
+ here, the base class implements an internal reference unto itself (and its instances). This can be availed
+ to the outside world (relative to the `InputField-class` in question) as defined below:
  
- An example of this observation:
+ When accessing the input-field reference from outside the `<InputField />` component in question,
+ use the notation `<your-chosen-reference-object>.current.internalFieldReference`
+ where `<your-chosen-reference-object>` is replaced with the variable that hosts the react reference.
+ `current` is the current reference instance of the desired reference.
+ `internalFieldReference` is an actual variable hosting the `InputField`'s internal reference.
+ 
+ That name MUST BE PRESENT WHEN ACCESSING SPECIFIC `HTMLInputElement` instances.
+  An example of this access procedure:
 `<some-reference-variable-in-calling-class>.internalFieldReference.current.<desired-attribute>`
