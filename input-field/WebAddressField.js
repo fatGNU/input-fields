@@ -41,7 +41,7 @@ export default class WebAddressField extends BaseField{
                     this.stopTyping();
                     // this.stopTypingOn(e);
                     //show error message box with message there
-                    this.showContextMessageError("Type in a proper Phone number!")
+                    this.showContextMessageError("Type in a proper web address!")
                 }
             }
             } onBlur={this.removeHighlightOnBlur}/>
