@@ -58,7 +58,7 @@ required - is used to make sure that the datefield is required!
  the callback method.
  
  ### NOTE:
- - When accessing the input-field reference from outside the <InputField /> in question,
+ When accessing the input-field reference from outside the `<InputField />` component in question,
  use the notation
  `<your-chosen-reference-object>.current.internalFieldReference`
  where `<your-chosen-reference-object>` is replaced with the variable that hosts the react reference
