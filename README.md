@@ -69,3 +69,8 @@ required - is used to make sure that the datefield is required!
  That name MUST BE PRESENT WHEN ACCESSING SPECIFIC `HTMLInputElement` instances.
   An example of this access procedure:
 `<some-reference-variable-in-calling-class>.internalFieldReference.current.<desired-attribute>`
+Note, again, that `current` **does not follow** the reference in the calling context (or in this case class). 
+ This notation is of significance when a react component class is being referred. The more traditional means of using
+`current` immediately after the reference in the calling context is `evident when referring to the
+actual HTMLInputElement`.
+
