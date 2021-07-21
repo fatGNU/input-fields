@@ -1,3 +1,6 @@
+This collection of subclasses of the `InputField` class all use `bootstrap-css` for styling. Make sure
+to install version 4 and above before use.
+
 ## input-field collection of sub-components
 
 All components with input field will submit their field names as the field names and \
