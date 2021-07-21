@@ -61,8 +61,8 @@ required - is used to make sure that the datefield is required!
  When accessing the input-field reference from outside the `<InputField />` component in question,
  use the notation
  `<your-chosen-reference-object>.current.internalFieldReference`
- where `<your-chosen-reference-object>` is replaced with the variable that hosts the react reference
- 'current' is the current reference instance of the desired reference
+ where `<your-chosen-reference-object>` is replaced with the variable that hosts the react reference.
+ `current` is the current reference instance of the desired reference
  'internalFieldReference' is an actual variable hosting the InputField internal reference.
  That name MUST BE PRESENT WHEN ACCESSING SPECIFIC HTMLInputElement instances.
  
