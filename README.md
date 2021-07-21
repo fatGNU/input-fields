@@ -2,12 +2,12 @@ This collection of subclasses of the `InputField` class all use `bootstrap-css` 
 to install version 4 and above before use.
 
 ## input-field collection of sub-components
+These are react-based class Components responsible for collection, pre-validation and identification of
+various types of input fields used in a normal web form interface. Each datum provided by each of these `InputField`s
+is stored in a JSON which is provided by the designer. Input field's are custom fields designed
+to enable data collection through a callback method reference (not method call) during the `onChange`event.
 
-All components with input field will submit their field names as the field names and \
-values in the form a JSON object.
-Input fields are custom fields designed to enable callbacks during the `onChange`event.
-
-#### Properties
+#### Properties of the  _InputField_ component
 
 ` callback`
 is used to pass the method responsible for gathering data from this component.
@@ -17,7 +17,8 @@ is used to identify this field as well as attach a key to the data fetched throu
 
 `placeholder` is used as a label for a given field.
 
-#### How to call these fields
+
+#### How to call/implement these fields
 
 &emsp; `<InputField name={name_text} placeholder = {placeholder_text} callback = {some_function_reference} />`
 
@@ -60,13 +61,13 @@ Edit the respective regular expressions as they apply in your subclass/`Componen
 to suit your needs.
 
 ## Errors that are thrown
- `ReferenceError` {when the name property is absent on calling this component}. This is
- because the name is used to identify the field and its value during the execution of
- the callback method.
+ Any field will throw a `ReferenceError` when the name property is absent on calling this component.
+ This is because the said name is used to identify the field and its user-typed value during the execution of
+ the callback method (assuming you are using one...).
  
  ### NOTE:
- In order to drill down a component and get a reference to the proper HTMLInputElement that is in use
- here, the base class implements an internal reference unto itself (and its instances). This can be availed
+ In order to drill down a component and get a reference to the proper HTMLInputElement that is in use,
+ the base class implements an internal reference unto itself (and its instances). This can be availed
  to the outside world (relative to the `InputField-class` in question) as defined below:
  
  When accessing the input-field reference from outside the `<InputField />` component in question,
@@ -80,8 +81,40 @@ to suit your needs.
   
 `<some-reference-variable-in-calling-class>.internalFieldReference.current.<desired-attribute>`.
 
-Note, again, that `current` **does not follow** the reference in the calling context (or in this case class). 
- This notation is of significance when a react component class is being referred. The more traditional means of using
-`current` immediately after the reference in the calling context is `evident when referring to the
-actual HTMLInputElement`.
+Note, again, that `current` **does not follow** the reference in the calling context (or in this case, class). 
+ This notation is of significance when a react component class is being referred.
+ ```
+   import React,{Component} from 'react';
+   ...//other imports here
+
+   class MyClass extends Component{//or other SubClass which extends Component
+      let myRef = React.createRef();
+      ...
+      //some code above
+      <MyComponent ref = {myRef} ... />
+
+      //to access the MyComponent, do:
+      myRef.<some-desired-attribute-or-method-call>
+  }
+ ```
+ The more traditional means of using `current` immediately after the
+ reference in the calling context is `evident when referring to the actual HTMLInputElement`.
+ ```
+   import React,{Component} from 'react';
+   import MyComponent from '/some/js/component/path';
+   ...//other imports here
+
+   class MyOtherClass extends Component{//or other SubClass which extends Component
+      let myAnotherRef = React.createRef();
+      ...
+      //some code above
+      <MyComponent ref = {myAnotherRef} ... />
+
+      //to access the MyComponent's input field, do:
+      
+      myAnotherRef.internalFieldReference.current.<some-desired-attribute-or-method-call>
+      
+      //in the line above, the "current" field is available when accessing "internalFieldReference" object
+  }
+ ```
 
