@@ -1,0 +1,145 @@
+/**
+Describe field architecture here and animate
+ */
+/**
+Describe the font family needed here...
+ */
+@font-face {
+  font-family: "noto-sans-medium";
+  src: url("../fonts/Noto_Sans_KR/NotoSansKR-Medium.otf");
+}
+@font-face {
+  font-family: "noto-sans-bold";
+  src: url("../fonts/Noto_Sans_KR/NotoSansKR-Bold.otf");
+}
+
+@font-face {
+  font-family: "noto-sans-regular";
+  src: url("../fonts/Noto_Sans_KR/NotoSansKR-Regular.otf");
+}
+
+/**
+animations for fields. these focus on the opacity only!
+ */
+@keyframes component_fade_in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
+
+@keyframes component_fade_out {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/*end of animation*/
+@keyframes field_select {
+}
+
+@keyframes field_blur {
+}
+select {
+  width: 100%;
+  height: 100%;
+  top: 20em;
+}
+fieldset {
+  /*width: 32px;*/
+  height: 80px; /*or 8vh*/
+  /*border: 1px solid #d7d7df;*/
+  cursor: default;
+  user-select: none;
+  -moz-user-select: none;
+
+}
+
+textarea {
+  width: 600px;
+  height: 186px;
+  border: 3px solid #cccccc;
+  padding: 10px;
+  font-family: noto-sans-medium, sans-serif;
+  resize: none;
+}
+
+legend,
+legend.w-auto {
+  width: auto;
+  font-size: 0.9em;
+  position: relative;
+  display: block;
+  left: 12px;
+  background: #ffffff;
+  text-transform: revert;
+  font-weight: 600;
+  font-family: noto-sans-medium, serif;
+  align-content: initial;
+}
+
+input {
+  width: 96%;
+  height: 80%;
+  border: 1px solid #929295;
+  border-radius: 0.1em;
+  font-size: 0.8em;
+  cursor: initial;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  font-size: 22em;
+  height: 24px;
+  width: 24px;
+  align-items: center;
+}
+
+/**
+Error context message boxes
+ */
+div.error-context-message {
+  position: relative;
+  border-radius: 0.11em;
+  display: block;
+  justify-content: center;
+  margin: 0 0 auto;
+  top: 3%;
+  background: #c83333;
+  color: #ffffff;
+  font-family: noto-sans-bold, serif;
+  animation-name: component_fade_in;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-duration: 0.28s;
+}
+
+div.warning-context-message {
+  position: relative;
+  display: block;
+  border-radius: 0.11em;
+  align-content: center;
+  margin: 0 auto;
+  top: 3%;
+  height: 1.6em;
+  width: 96.4%;
+  font-style: oblique;
+  background: #fab50d;
+  color: #2c2b2b;
+  font-family: noto-sans-medium, serif;
+  animation-name: component_fade_in;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-duration: 0.28s;
+}
+div.error-context-message-out,
+.warning-context-message-out {
+  animation-name: component_fade_out;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-duration: 0.28s;
+}
