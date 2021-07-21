@@ -52,3 +52,19 @@ maximumDate - is the highest or latest date that a datefield can allow for selec
                 Note: the 'Date()' call here IS PURELY FOR ILLUSTRATION ONLY. Use common sense!
 required - is used to make sure that the datefield is required!
 ```
+## Errors that are thrown
+ `ReferenceError` {when the name property is absent on calling this component}. This is
+ because the name is used to identify the field and its value during the execution of
+ the callback method.
+ 
+ ### NOTE:
+ - When accessing the input-field reference from outside the <InputField /> in question,
+ use the notation
+ `<your-chosen-reference-object>.current.internalFieldReference`
+ where `<your-chosen-reference-object>` is replaced with the variable that hosts the react reference
+ 'current' is the current reference instance of the desired reference
+ 'internalFieldReference' is an actual variable hosting the InputField internal reference.
+ That name MUST BE PRESENT WHEN ACCESSING SPECIFIC HTMLInputElement instances.
+ 
+ An example of this observation:
+`<some-reference-variable-in-calling-class>.internalFieldReference.current.<desired-attribute>`
