@@ -1,5 +1,5 @@
 import BaseField from "./base/BaseField";
-import AddControl from "../controls/svg-controls/AddControl";
+import AddControl from "../base/controls/svg-controls/AddControl";
 
 /**
  *
