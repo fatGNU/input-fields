@@ -32,8 +32,7 @@ The following are all fields of the `InputField` subclass:
 - `PasswordField` - works just like TextField except its type is password
 - `EmailField` - used to gather email addresses
 - `PhoneNumberField` - used to gather phone numbers
-- `SelectField` - used to get data from a select tool. `options` is unique to this type of input field. It requires
-  an array of JSONs.
+- `SelectField` - used to get data from a select tool. `options` is unique to this type of input field.
 - `FileSelectField` - used to select files.
 - `FileSelectFieldIcon` - used to select files but is decorated with a '+' icon.
 - `RadioField` - a normal radio field.
@@ -55,7 +54,16 @@ maximumDate - is the highest or latest date that a datefield can allow for selec
 required - is used to make sure that the datefield is required!
 ```
 
-#### the PassportField and PhoneNumberField fields
+#### The SelectField component
+This component requires an array of JSONs with each JSON object being a single-element object.
+```
+  [
+      {identifier_1: option_text1},
+      {identifier_2: option_text2},
+      ...
+  ]
+```
+#### The PassportField and PhoneNumberField components
 Note that the regular expressions in use are written to suit the needs of a Kenyan environment.
 Edit the respective regular expressions as they apply in your subclass/`Component`'s constructor
 to suit your needs.
