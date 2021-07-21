@@ -39,9 +39,7 @@ The following are all fields of the `InputField` subclass:
 - `PassportField` - which is used to gather passport numbers. This number is unique to Kenya.
 - `DateField` - which is used to select a date. Defaults to `today's date` and limits backwards to `1965`.
 - `WebAddressField` - which is used to ensure web addresses are pre-validated before upload to some server.
-  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;It accepts arguments for `futureDateLimit` and `pastDateLimit`
-   in addition to  `InputField`'s properties.
-   
+     
 #### The DateField component
 The `DateField` is unique in that it accepts additional arguments in addition to the above properties. \
 Note that these props below are all optional:
