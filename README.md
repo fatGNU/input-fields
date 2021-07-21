@@ -53,6 +53,12 @@ maximumDate - is the highest or latest date that a datefield can allow for selec
                 Note: the 'Date()' call here IS PURELY FOR ILLUSTRATION ONLY. Use common sense!
 required - is used to make sure that the datefield is required!
 ```
+
+#### the PassportField and PhoneNumberField fields
+Note that the regular expressions in use are written to suit the needs of a Kenyan environment.
+Edit the respective regular expressions as they apply in your subclass/`Component`'s constructor
+to suit your needs.
+
 ## Errors that are thrown
  `ReferenceError` {when the name property is absent on calling this component}. This is
  because the name is used to identify the field and its value during the execution of
