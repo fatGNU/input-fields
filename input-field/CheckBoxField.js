@@ -1,6 +1,6 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import {col12} from "./ColFunction";
+import {col12} from "./base/ColFunction";
 
 /**
  *
