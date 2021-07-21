@@ -1,0 +1,53 @@
+/*small animations for inflation of a tool or component*/
+@keyframes animate_swell {
+    from{
+        transform: scale(1.0);
+    }
+    to{
+        transform: scale(1.18);
+    }
+}
+/*animation to show deflation of a tool*/
+@keyframes animate_deflate {
+    from{
+        transform:scale(1.18);
+    }
+    to{
+        transform: scale(1.0);
+    }
+}
+
+@keyframes animate_colour_change {
+    from{
+        fill: #EA0A0AFF;
+    }
+    to{
+        fill: #2c2b2b;
+    }
+}
+
+.svg-control{
+    margin-top: 8px;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    background: #FFFFFF;
+}
+
+.close-control{
+    fill: #800080;
+}
+
+/*.close-control:HOVER{*/
+/*    animation: animate_colour_change forwards 0.3s linear;*/
+/*}*/
+/*.close-control:NOT(:HOVER){*/
+/*    animation: animate_colour_change reverse 0.2s linear;*/
+/*}*/
+
+.svg-control:HOVER{
+    animation: animate_swell forwards 0.1s linear;
+}
+.svg-control:not(:HOVER){
+    animation: animate_deflate forwards 0.16s linear;
+}

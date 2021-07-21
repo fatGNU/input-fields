@@ -1,0 +1,31 @@
+export const col1 = "lg-1 xs-1 sm-1 col-md-1",
+    col2 = "lg-2 sm-2 xs-2 col-md-2",
+    col3 = "lg-3 xs-3 sm-3 col-md-3",
+    col4 = "lg-4 xs-4 sm-4 col-md-4",
+    col5 = "lg-5 xs-5 sm-5 col-md-5",
+    col6 = "lg-6 xs-6 sm-6 col-md-6",
+    col7 = "lg-7 xs-7 sm-7 col-md-7",
+    col8 = "col-md-8 lg-9 xs-8 sm-8",
+    col9 = "col-md-9 lg-9 xs-9 sm-9",
+    col10 = "lg-10 xs-10 sm-10 col-md-10",
+    col11 = "lg-11 xs-11 sm-11 col-md-11",
+    col12 = "lg-12 xs-12 sm-12 col-md-12",
+    row = "row",
+    container = "container";
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+    container,
+    col1,
+    col2,
+    col3,
+    col4,
+    col5,
+    col6,
+    col7,
+    col8,
+    col9,
+    col10,
+    col11,
+    col12,
+};
