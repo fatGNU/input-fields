@@ -1,12 +1,12 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import { col12 } from "../ColFunction";
+import {col12} from "./base/ColFunction";
 /**
  *
  * NumberField defines a type where the props
  *
  */
-export default class TextArea extends BaseField {
+export default class TextAreaField extends BaseField {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props);
