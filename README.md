@@ -37,7 +37,7 @@ The following are all fields of the `InputField` subclass:
 - `OtpField` - works just like a number field but limited to 6 numbers.
 - `TextAreaField` - works just like a `TextField` field component but with multiple lines.
 - `PassportField` - which is used to gather passport numbers. This number is unique to Kenya.
-- `DateField` - which is used to select a date. Defaults to `today's date` and limits backwards to `1965`.\
+- `DateField` - which is used to select a date. Defaults to `today's date` and limits backwards to `1965`.
 - `WebAddressField` - which is used to ensure web addresses are pre-validated before upload to some server.
   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;It accepts arguments for `futureDateLimit` and `pastDateLimit`
    in addition to  `InputField`'s properties.
