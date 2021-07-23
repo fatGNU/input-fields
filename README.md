@@ -42,6 +42,7 @@ The following are all fields of the `InputField` subclass:
 - `PassportField` - which is used to gather passport numbers. This number is unique to Kenya.
 - `DateField` - which is used to select a date. Defaults to `today's date` and limits backwards to `1965`.
 - `WebAddressField` - which is used to ensure web addresses are pre-validated before upload to some server.
+- `RangeField` - which is used to select a value from a input slider element.
      
 #### The DateField component
 The `DateField` is unique in that it accepts additional arguments in addition to the above properties. \
@@ -67,6 +68,19 @@ This component requires an array of JSONs with each JSON object being a single-e
 Note that the regular expressions in use are written to suit the needs of a Kenyan environment.
 Edit the respective regular expressions as they apply in your subclass/`Component`'s constructor
 to suit your needs.
+
+#### The RangeField component
+This component is used to select an integer value (as oposed to typing in one).
+In addition to existing `InputField` props list, this field accepts an additional two:
+
+```
+    maximumValue - an Integer limiting the range to an upper level.
+    minimumValue - an Integer limiting the range to a lower level.
+    smoothnessIndex - an Integer changing the smoothness of selection. By default all smoothness
+                        Integers are divided by 7 (for no reason) to get a float value
+                        that sets the 'step' attribute of <input type='range' .../> HTMLElement.
+```
+
 
 ## Errors that are thrown
  Any field will throw a `ReferenceError` when the name property is absent on calling this component.
