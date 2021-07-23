@@ -42,8 +42,9 @@ The following are all fields of the `InputField` subclass:
 - `PassportField` - which is used to gather passport numbers. This number is unique to Kenya.
 - `DateField` - which is used to select a date. Defaults to `today's date` and limits backwards to `1965`.
 - `WebAddressField` - which is used to ensure web addresses are pre-validated before upload to some server.
-- `RangeField` - which is used to select a value from a input slider element.
-     
+- `RangeField` - which is used to select a value from an input-slider element.
+
+  
 #### The DateField component
 The `DateField` is unique in that it accepts additional arguments in addition to the above properties. \
 Note that these props below are all optional:
@@ -55,30 +56,20 @@ maximumDate - is the highest or latest date that a datefield can allow for selec
 required - is used to make sure that the datefield is required!
 ```
 
-#### The SelectField component
-This component requires an array of JSONs with each JSON object being a single-element object.
-```
-  [
-      {identifier_1: option_text1},
-      {identifier_2: option_text2},
-      ...
-  ]
-```
-#### The PassportField and PhoneNumberField components
-Note that the regular expressions in use are written to suit the needs of a Kenyan environment.
-Edit the respective regular expressions as they apply in your subclass/`Component`'s constructor
-to suit your needs.
-
 #### The RangeField component
-This component is used to select an integer value (as oposed to typing in one).
-In addition to existing `InputField` props list, this field accepts an additional two:
+This component selects an integer value (as opposed to typing in one).
+In addition to existing `InputField` props list, this field accepts an (optional) additional four:
 
 ```
-    maximumValue - an Integer limiting the range to an upper level.
-    minimumValue - an Integer limiting the range to a lower level.
+    maximumValue - an Integer limiting the range to an upper level. Defaults to 60
+    minimumValue - an Integer limiting the range to a lower level. Defaults to 1
     smoothnessIndex - an Integer changing the smoothness of selection. By default all smoothness
                         Integers are divided by 7 (for no reason) to get a float value
                         that sets the 'step' attribute of <input type='range' .../> HTMLElement.
+    defaultValue - the default value that's pre-selected when the component mounts.
+                    it defaults to a value in accordance with the formula
+                            (internalDefaultMaximumValue - internalDefaultMinimumValue)/3
+                    The divider --in this case, 3-- has been chosen arbitrarily.
 ```
 
 
