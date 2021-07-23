@@ -87,10 +87,9 @@ to suit your needs.
  That name MUST BE PRESENT WHEN ACCESSING SPECIFIC `HTMLInputElement` instances.
   An example of this access procedure:
   
-`<some-reference-variable-in-calling-class>.internalFieldReference.current.<desired-attribute>`.
+`<some-reference-variable-in-calling-class>.current.internalFieldReference.current.<desired-attribute>`.
 
-Note, again, that `current` **does not follow** the reference in the calling context (or in this case, class). 
- This notation is of significance when a react component class is being referred.
+An example of this, accessing a  <`Component`.../> level attribute is in the code below:
  ```
    import React,{Component} from 'react';
    ...//other imports here
@@ -102,10 +101,10 @@ Note, again, that `current` **does not follow** the reference in the calling con
       <MyComponent ref = {myRef} ... />
 
       //to access the MyComponent, do:
-      myRef.<some-desired-attribute-or-method-call>
+      myRef.current.<some-desired-attribute-or-method-call>
   }
  ```
- The more traditional means of using `current` immediately after the
+ The more traditional means of using `current` when accessing a given HTMLElement subclass immediately after the
  reference in the calling context is `evident when referring to the actual HTMLInputElement`.
  ```
    import React,{Component} from 'react';
