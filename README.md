@@ -73,7 +73,7 @@ In addition to existing `InputField` props list, this field accepts an (optional
 ```
 
 
-## Errors that are thrown
+## throws Error
  Any field will throw a `ReferenceError` when the name property is absent on calling this component.
  This is because the said name is used to identify the field and its user-typed value during the execution of
  the callback method (assuming you are using one...).
