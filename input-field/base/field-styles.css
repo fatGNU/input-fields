@@ -98,9 +98,13 @@ input[type="radio"] {
   width: 24px;
   align-items: center;
 }
+input[type='range']{
+  height: 8px;
+  border-radius: 4px;
+}
 
 /**
-Error context message boxes
+Error context-variables message boxes
  */
 div.error-context-message {
   position: relative;
@@ -109,32 +113,32 @@ div.error-context-message {
   justify-content: center;
   margin: 0 0 auto;
   top: 3%;
+  padding: 4px;
+  z-index: 2600;
   background: #c83333;
   color: #ffffff;
   font-family: noto-sans-bold, serif;
-  animation-name: component_fade_in;
-  animation-direction: normal;
-  animation-timing-function: linear;
-  animation-duration: 0.28s;
+  animation: component_fade_in 0.28s normal linear;
 }
 
 div.warning-context-message {
   position: relative;
-  display: block;
+  /*display: block;*/
   border-radius: 0.11em;
   align-content: center;
   margin: 0 auto;
   top: 3%;
-  height: 1.6em;
-  width: 96.4%;
-  font-style: oblique;
-  background: #fab50d;
-  color: #2c2b2b;
+  z-index: 2600;
+  height: fit-content;
+  width: 96.4% !important;
+  /*font-style: oblique;*/
+  background: #f88027;
+  border: 1px dotted #2c2b2b;
+  /*color: #2c2b2b;*/
+  color: #FFFFFF;
+  padding: 8px;
   font-family: noto-sans-medium, serif;
-  animation-name: component_fade_in;
-  animation-direction: normal;
-  animation-timing-function: linear;
-  animation-duration: 0.28s;
+  animation: component_fade_in alternate linear 0.28s;
 }
 div.error-context-message-out,
 .warning-context-message-out {

@@ -1,6 +1,6 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import {col12} from "./base/ColFunction";
+import {col12} from "../MiscUtils";
 
 /**
  *
@@ -11,7 +11,6 @@ export default class PhoneNumberField extends BaseField{
     // eslint-disable-next-line no-useless-constructor
     constructor(props){
         super(props);
-        this.callback = props.callback;
         this.numberRegRxp = new RegExp(/^\+?[0-9]{0,12}$/);
         //this should be checked against a country-code if desired.
     }
@@ -29,21 +28,24 @@ export default class PhoneNumberField extends BaseField{
          * onFocus allows the legend to be changed
          */
         return (<fieldset className={`${col12} form-group border`}>
-            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}</legend>
-            <input ref = {this.internalFieldReference} name = {this.name} type={this.fieldType} onFocus={this.highlightOnFocus} onChange={(e) => {
+            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
+            <input {...this.required} ref = {this.internalFieldReference} name = {this.name} type={this.fieldType} onFocus={this.highlightOnFocus} onChange={(e) => {
                 if(this.checkIfNumber(e.target.value)){
-                    this.callback(e);
-                    this.removeContextMessageError();
+                    this.changecallback(e);
+                    this.removeContextMessageWarning();
                 }
                 else{
                     //pass the target input field to perform this act on.
                     this.stopTyping();
                     // this.stopTypingOn(e);
                     //show error message box with message there
-                    this.showContextMessageError("Type in a proper Phone number!")
+                    this.showContextMessageWarning("Type in a proper Phone number!")
                 }
             }
-            } onBlur={this.removeHighlightOnBlur}/>
+            } onBlur={() => {
+                this.evaluateControlOnRequired()
+                this.blurCallback();
+            }}/>
             {this.state.possibleContextMessageBox}
         </fieldset>);
     }

@@ -1,15 +1,16 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import { col12 } from "../MiscUtils";
+import { col12 } from "../ColFunction";
 /**
  *
  * NumberField defines a type where the props
  *
  */
-export default class TextAreaField extends BaseField {
+export default class TextArea extends BaseField {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props);
+    this.callback = props.callback;
   }
 
   render = () => {
@@ -21,16 +22,15 @@ export default class TextAreaField extends BaseField {
         style={{ height: "240px" }}
         className={`${col12} form-group border`}
       >
-        <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
-            <textarea {...this.required} ref = {this.internalFieldReference}
+        <legend className={`${this.state.selection} w-auto`}>
+          {this.fieldPlaceHolder}
+        </legend>
+        <textarea ref = {this.internalFieldReference}
           onFocus={this.highlightOnFocus}
           onChange={(e) => {
-            this.changecallback(e);
+            this.onChange(e.target.value);
           }}
-          onBlur={() => {
-                this.evaluateControlOnRequired()
-                this.blurCallback();
-            }}
+          onBlur={this.removeHighlightOnBlur}
         />
         {this.state.possibleContextMessageBox}
       </fieldset>

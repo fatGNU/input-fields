@@ -1,5 +1,5 @@
 import BaseField from "./base/BaseField";
-import AddControl from "../base/controls/svg-controls/AddControl";
+import AddControl from "../controls/svg-controls/AddControl";
 
 /**
  *
@@ -121,8 +121,9 @@ export default class FileSelectFieldIcon extends BaseField {
                         //choose one file at a time
                         //make sure that if it's not a base64 string. Pick the first file as an object.
                         // this.callback(this.multiple_files ? e.target.files : e.target.files[0]);
-                        this.callback(e);
+                        this.changecallback(e);
                     }
+                    //thjis does/should not have a blurcallback callback method invocation in here....
                 }
                 }/>
                 <AddControl callback={this.triggerFileSelection}/>

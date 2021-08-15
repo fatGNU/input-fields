@@ -1,6 +1,6 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import {col12} from "./base/ColFunction";
+import {col12} from "../MiscUtils";
 
 /**
  *
@@ -12,7 +12,6 @@ export default class DateField extends BaseField {
     constructor(props) {
         super(props);
         const date = new Date();
-        this.callback = props.callback;
         this.minimumDate = props.minimumDate === undefined ? '01/01/1965' : props.minimumDate;
         this.currentDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
         this.maximumDate = props.maximumDate === undefined ? `${this.currentDate}` : props.maximumDate;
@@ -32,15 +31,18 @@ export default class DateField extends BaseField {
          * onFocus allows the legend to be changed
          */
         return (<fieldset className={`${col12} form-group border`}>
-            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}</legend>
-            <input type={'date'} required={this.isRequired} pattern={'\d[1-31]{2}/\d[1-12]{2}/\d{4}'}
+            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
+            <input {...this.required} type={'date'} required={this.isRequired} pattern={'[1-31]{2}/[1-12]{2}/{4}'}
                    min={this.minimumDate} placeholder={'dd/mm/yyyy'}
                    max={this.maximumDate} value={this.currentDate} ref={this.internalFieldReference}
                    name={this.name} onFocus={this.highlightOnFocus}
                    onChange={(e) => {
-                       this.callback(e);
+                       this.changecallback(e);
                     }
-                   } onBlur={this.removeHighlightOnBlur}/>
+                   } onBlur={() => {
+                this.evaluateControlOnRequired()
+                this.blurCallback();
+            }}/>
             {this.state.possibleContextMessageBox}
         </fieldset>);
     };

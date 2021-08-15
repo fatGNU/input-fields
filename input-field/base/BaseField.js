@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import "./field-styles.css";
+import {Message} from "../../misc-components/context-variables/ContextManager";
+import {nameFromVariableName} from "../../MiscUtils";
 
 //declare constants for fields that are clearable and can be cleared on the fly using the same means.
 //see the BaseField method 'clearField'
@@ -34,16 +36,31 @@ const directlyClearableCheckedFields = ["radio", "checkbox"];
  *      'internalFieldReference' is an actual variable hosting the InputField internal reference.
  *      That name MUST BE PRESENT WHEN ACCESSING SPECIFIC HTMLInputElement instances.
  *
- *      examplt:
+ *      example:
  *          <some-reference-variable-in-calling-class>.internalFieldReference.current.<desired-attribute>
  *
  */
 export default class BaseField extends Component {
+    // static contextType = Message;
     constructor(props) {
         super(props);
         this.internalFieldReference = React.createRef();
-        this.callback = props.callback===undefined ? () => {console.warn(`callback is not set for <${this.constructor.name} /> component`)} : props.callback;
-            this.callback = props.callback;
+        // /**
+        //  * a callback method that's called when a change occurs in this field
+        //  * @type {(function(): void)|*}
+        //  */
+        // this.changecallback = props.changecallback === undefined ? () => {
+        //     console.warn(`callback is not set for <${this.constructor.name} /> component`)
+        // } : props.changecallback;
+        /**
+         * the callback when the cursor moves away from either the field, or the immediate vicinity
+         * of the field. It defaults to having nothing to do else it'll execute what has been
+         * passed as the blur callback method.
+         * @type {(function())|*}
+         */
+        this.blurCallback = props.onblurcallback === undefined ? () => {
+            // console.log('no-onblur-callback. Nothing to do.')
+        } : props.blurCallback;
         if (props.name === undefined) {
             throw new ReferenceError(`Component must have a --name-- attribute or property but none \
                 was found on ${this.constructor.name}`);
@@ -62,14 +79,19 @@ export default class BaseField extends Component {
                 : [];
         //check for properties for callback
         //make sure that the onChange method prints the content on screen
-        this.callback =
-            props.callback != null
-                ? props.callback
+        /**
+         * a callback method that's called when a change occurs in this field
+         * @type {(function(): void)|*}
+         */
+        this.changecallback =
+            props.changecallback != null
+                ? props.changecallback
                 : (e) => {
                     // eslint-disable-next-line no-multi-str
                     console.warn(
                         e,
                         "warning:",
+                        // eslint-disable-next-line no-multi-str
                         "this input field does not take it's data anywhere! \
                       that's why im printing it out here as a warning. Damn it, supply a callback method to it \
                       with the 'onChange' event listener"
@@ -80,8 +102,34 @@ export default class BaseField extends Component {
             // selection: String(),
             possibleContextMessageBox: null,
         };
-        //do some tests on the data that's considered mandatory
+        // mark field as mandatory and check whether the flag has a colour attached to it
+        this.isRequiredAsterixColour = "#CC0000";
+        this.isRequired = null;
+        this.required = false;
+        if (this.props.isRequired !== undefined) {
+            this.required = true;
+            this.isRequired = <span
+                style={{color: this.isRequiredAsterixColour, fontSize: 16}}>
+                &ensp;{this.props.isRequired ? '*' : null}
+            </span>
+        }
     }
+
+    //most likely no longer useful
+    // componentDidMount() {
+    //     //check whether this component is marked mandatory and listen for the onblur event
+    //     if(this.isRequired){
+    //         const input = document.getElementsByName(this.internalFieldReference.current.name)[0];
+    //         // for some reason, using the internal field reference doenst work properly when
+    //         // I write an event listener to it. Get it directly using HTML document native methods
+    //         // console.log(this.internalFieldReference)//this is the actual input field
+    //         input.addEventListener('blur',() =>{
+    //             //check whether it has something written on it. if not, proceed
+    //             // to show error and shout out
+    //             this.controlIsRequired(input);
+    //         });
+    //     }
+    // }
 
     //access these actions or states it using the diabled property
     // /**
@@ -127,10 +175,10 @@ export default class BaseField extends Component {
         //have a timer! remove or nullify the possibleContextMessageBox state variable
     };
     /**
-     * Removes context message error box
+     * Removes context-variables message error box
      */
     removeContextMessageError = () => {
-        // this.state.possibleContextMessageBox.classList.add("error-context-message-out");
+        // this.state.possibleContextMessageBox.classList.add("error-context-variables-message-out");
         window.setTimeout(() => {
             this.setState((state) => {
                 state.possibleContextMessageBox = null;
@@ -272,10 +320,73 @@ this ${
     // }
 
     /**
-     * this is an attempt at self-referencing such that this component can
-     * call self-clearing-of-data methods on itself.
+     *
+     * Method explains to the user which input field needs to be filled...
+     * @param fieldName the field name to extract and format the actual human-readable name from
+     * @private only available in the base class.
+     *
      */
-    // componentDidMount() {
-    //     this.internalFieldReference = this.constructor;
-    // }
+    _sayItemMustBeFilled = (fieldName) => {
+        let formattedFieldName = '';
+        //iterate through the field and fetch the last 2 items from the string if
+        // the element has two items in it
+        fieldName = nameFromVariableName(fieldName);
+        if (fieldName.constructor.name === [].constructor.name) {
+            if (fieldName.length >= 2) {
+                //create a name
+                formattedFieldName = `${fieldName[fieldName.length - 2]} ${fieldName[fieldName.length - 1]}`
+            } else if (fieldName.length === 1) {
+                formattedFieldName =
+                    //create a name
+                    formattedFieldName = `${fieldName[0]}`
+            } else {
+                formattedFieldName = 'Check these mandatory fields that filling and fill it!';
+            }
+        }
+        formattedFieldName = `${formattedFieldName} MUST BE FILLED!`
+        this.showContextMessageError(formattedFieldName);
+        //show a suitable message here
+        console.log(formattedFieldName);
+        //this works: Now replace it with a messaging bubble
+        // window.alert(formattedFieldName);
+    }
+    /**
+     *
+     * execute this method when control is required. Cascade amongst all components.
+     * but only execute them when the cursor blurs away
+     * @param input the input to analyse
+     *
+     */
+    evaluateControlOnRequired = (input = HTMLElement) => {
+        // const checkboxes = ['radio', 'checkbox'];
+        // perhaps do a range check?
+        if (this.isRequired)
+            if (this.internalFieldReference.current.tagName === 'INPUT')
+                //check whether it's a radio button or checkbox
+                // if(checkboxes.includes(this.internalFieldReference.current.name))
+                //this item fires when data was previously put in but was deleted. then the user began to proceed forward to another.
+                /**
+                 * split up these checks to allow for orderly and readable code
+                 */
+                if (this.isRequired && this.internalFieldReference.current.value.length === 0)
+                    //throw a tantarum about the item in question not being set
+                    this._sayItemMustBeFilled(this.internalFieldReference.current.name);
+                else {
+                    this.removeContextMessageError();
+                    this.removeContextMessageWarning();
+                }
+            //message the item out
+            else if (this.internalFieldReference.current.tagName === 'SELECT')
+                //this check should only apply when there is a change in the select field
+                //check that this element has a value that has been selected as value 0 (which should never be selected
+                if (input.target.selectedIndex === 0)
+                    this._sayItemMustBeFilled(this.internalFieldReference.current.name)
+                else
+                    //remove any warning or error messages
+                {
+
+                    this.removeContextMessageError();
+                    this.removeContextMessageWarning();
+                }
+    }
 }

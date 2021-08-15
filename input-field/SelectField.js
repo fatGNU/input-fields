@@ -1,6 +1,6 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import {col12} from "./base/ColFunction";
+import {col12} from "../MiscUtils";
 
 /**
  *
@@ -11,11 +11,12 @@ export default class SelectField extends BaseField {
     // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
-        this.callback = props.callback;
         this.options = props.options; //assume that options are an array
         this.state = {
+            optionsList: null,//but by default these are arrays
             options: [],
         };
+        this.hasUpdated = false;
     }
 
     /**
@@ -25,13 +26,13 @@ export default class SelectField extends BaseField {
      *
      */
     setOptions = (__options = this.options) => {
-        let keys = Object.keys(__options);
+        let keys = Object.getOwnPropertyNames(__options);
         this.setState((state) => {
             state.options = [];
             __options.map((option) => {
-                let option_key = Object.keys(option);
+                let option_key = Object.getOwnPropertyNames(option);
                 state.options.push(
-                    <option index={option_key[0]}>{option[option_key[0]]}</option>);
+                    <option index={option_key[0]}>{option[option_key[option_key.length - 1]]}</option>);
             });
             return state;
         });
@@ -41,7 +42,25 @@ export default class SelectField extends BaseField {
      * Set the options that will be seen on the select field
      */
     componentDidMount() {
-        if (this.options != null) this.setOptions(this.options);
+        if (this.options !== null) this.setOptions(this.options);
+    }
+
+    /**
+     *
+     * this will be deprecated....? Used to pass updates to it when rendering new options
+     *
+     * @param nextProps the props to pass on to
+     * @param nextContext This is irrelevant at this time...
+     *
+     */
+    componentWillReceiveProps = (nextProps, nextContext) => {
+        //set options with next props options field
+        if (nextProps.options === null)
+            return;
+        else if (nextProps.options === undefined)
+            return;
+        else
+            this.setOptions(nextProps.options);//set new options
     }
 
     render = () => {
@@ -50,18 +69,23 @@ export default class SelectField extends BaseField {
          */
         return (
             <fieldset className={`${col12} form-group border`}>
-                <legend className={`${this.state.selection} w-auto`}>
-                    {this.fieldPlaceHolder}
-                </legend>
-                <select ref={this.internalFieldReference} name={this.name}
+                <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
+                <select {...this.required} ref={this.internalFieldReference} name={this.name}
                         className={"form-control"}
                         onChange={
                             (e) => {
-                                this.callback(e);
+                                //if its the first index, do nothing or say cannot be selected
+                                if (e.target.selectedIndex === 0)
+                                    this.showContextMessageWarning('Cannot select the first element! it\'s forbidden');
+                                else
+                                    this.changecallback(e);
                             }
                             //find a way of changing the value of something from this point
                         }
-                        onBlur={this.removeHighlightOnBlur}
+                        onBlur={() => {
+                this.evaluateControlOnRequired()
+                this.blurCallback();
+            }}
                 >
                     <option aria-disabled={true} style={{color: '#7F7777FF', fontStyle: 'italic'}}>-select-item-
                     </option>

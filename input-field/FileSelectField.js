@@ -1,6 +1,6 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import {col12} from "./base/ColFunction";
+import {col12} from "../MiscUtils";
 
 /**
  *
@@ -16,7 +16,6 @@ export default class FileSelectField extends BaseField {
     // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
-        this.callback = props.callback;
         this.convert_to_base64 = props.with_base64 != null;
         this.multiple_files = props.with_multiple != null;
         this.base64StringArray = [];//for storage of file contents as a base64 string.
@@ -30,11 +29,11 @@ export default class FileSelectField extends BaseField {
      * @param file_object the file whose contents I want to read.
      * @returns {Promise<void>}
      */
-    async convertToBase64 (file_object) {
+    convertToBase64 = async (file_container, callback) => {
         const fReader = new FileReader();
         fReader.onload = (e) => {
             // this.base64StringArray.push(e.readAsDataURL(file_object));
-            return e.readAsDataURL(file_object);
+            return e.readAsDataURL(file_container);
         }
     }
     render = () => {
@@ -42,8 +41,8 @@ export default class FileSelectField extends BaseField {
          * onFocus allows the legend to be changed
          */
         return (<fieldset className={`${col12} form-group border`}>
-            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}</legend>
-            <input ref = {this.internalFieldReference} name = {this.name} className={"form-control"} type={"file"} style={{display: 'none', zIndex: 101}} onFocus={this.highlightOnFocus} onChange={(e) => {
+            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
+            <input {...this.required} ref = {this.internalFieldReference} name = {this.name} className={"form-control"} type={"file"} style={{display: 'none', zIndex: 101}} onFocus={this.highlightOnFocus} onChange={(e) => {
                 //try to open it and read it as base64 string of course observing the requirements
                 //of the user's will to do this...
                 if (this.multiple_files) {
@@ -54,15 +53,19 @@ export default class FileSelectField extends BaseField {
                                 this.base64StringArray.push(res);
                             });
                         }
+                        //once done, call the callback method with the data already processed
                     }
                 } else {
                     //read as normal file object
                     //choose one file at a time
                     // this.callback(this.multiple_files ? e.target.files : e.target.files[0]);
-                    this.callback(e);
+                    this.changecallback(e);
                 }
             }
-            } onBlur={this.removeHighlightOnBlur}/>
+            } onBlur={() => {
+                this.evaluateControlOnRequired()
+                this.blurCallback();
+            }}/>
         </fieldset>);
     }
 }
