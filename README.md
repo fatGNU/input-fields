@@ -20,7 +20,7 @@ is used to identify this field as well as attach a key to the data fetched throu
 
 #### How to call/implement these fields
 
-&emsp; `<InputField name={name_text} placeholder = {placeholder_text} callback = {some_function_reference} />`
+&emsp; `<InputField <isRequired> <changecallback = {some_method_reference}><blurcallback={some_method_reference}> name={name_text} placeholder = {placeholder_text} />`
 
 Replace the `InputField` with the appropriate field call as required (see the field-list below for reference).
 
