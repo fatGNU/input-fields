@@ -7,11 +7,11 @@ import {col12} from "../MiscUtils";
  * NumberField defines a type where the props
  *
  */
-export default class WebAddressField extends BaseField{
+export default class WebAddressField extends BaseField {
     // eslint-disable-next-line no-useless-constructor
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.webAddressRegExp = new RegExp(/^http[s]?:\/\/[a-zA-Z0-9]{2,20}.[a-zA-Z0-9.]$/);
+        this.webAddressRegExp = new RegExp(/^[http[s]?]?:\/\/[a-zA-Z0-9]{2,20}.[a-zA-Z0-9.]$/);
         //this should be checked against a country-code if desired.
     }
 
@@ -29,23 +29,24 @@ export default class WebAddressField extends BaseField{
          */
         return (<fieldset className={`${col12} form-group border`}>
             <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
-            <input {...this.required} ref = {this.internalFieldReference} name = {this.name} type={this.fieldType} onFocus={this.highlightOnFocus} onChange={(e) => {
-                if(this.checkIfAddress(e.target.value)){
+            <input {...this.required} ref={this.internalFieldReference} name={this.name} type={this.fieldType}
+                   onFocus={this.highlightOnFocus} onChange={(e) => {
+                if (this.checkIfAddress(e.target.value)) {
                     this.changecallback(e);
                     this.removeContextMessageWarning();
-                }
-                else{
+                } else {
                     //pass the target input field to perform this act on.
                     // this.stopTyping();
                     // this.stopTypingOn(e);
                     //show error message box with message there
                     this.showContextMessageWarning("type complete url address!")
                 }
-            }
-            } onBlur={() => {
-                this.evaluateControlOnRequired()
-                this.onBlurCallback();
-            }}/>
+            }}
+                   defaultValue={this.state.previousValue}
+                   onBlur={() => {
+                       this.evaluateControlOnRequired()
+                       this.blurCallback();
+                   }}/>
             {this.state.possibleContextMessageBox}
         </fieldset>);
     }

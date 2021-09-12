@@ -52,7 +52,8 @@ export default class NumberField extends BaseField {
                     this.showContextMessageWarning("Type only numbers!")
                 }
             }
-            } onBlur={() => {
+            } defaultValue={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>

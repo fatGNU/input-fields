@@ -8,7 +8,7 @@ let textFieldReference = Object();
  * NumberField defines a type where the props
  *
  */
-export default class TextField extends BaseField {
+export default class NameField extends BaseField {
     // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
@@ -49,7 +49,9 @@ export default class TextField extends BaseField {
                     this.showContextMessageWarning('type a proper name!');
                 }
             }
-            } onBlur={() => {
+            }
+                   defaultValue={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>

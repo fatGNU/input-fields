@@ -99,7 +99,7 @@ export default class BaseField extends Component {
                 };
         this.state = {
             enabled: false,
-            // selection: String(),
+            previousValue: props.defaultValue === undefined ? '' : props.defaultValue,// the default value to show
             possibleContextMessageBox: null,
         };
         // mark field as mandatory and check whether the flag has a colour attached to it
@@ -113,6 +113,23 @@ export default class BaseField extends Component {
                 &ensp;{this.props.isRequired ? '*' : null}
             </span>
         }
+
+        //
+        // the code below will only work for child components or subclasses
+        //
+        // if (this.internalFieldReference.current !== null) {
+        //     if (this.internalFieldReference.current.tagName === 'input') {
+        //         if (this.internalFieldReference.current.type === 'checkbox' || this.internalFieldReference.current.type === 'radio')
+        //             this.internalFieldReference.current.checked = this.defaultValue;
+        //         else
+        //             this.defaultValue = props.defaultValue === undefined ? '' : props.defaultValue;
+        //     }
+        //     // Note: this does not prevent values from being edited.
+        //     else if (this.internalFieldReference.current.tagName === 'select')
+        //         // this is about being pre-loaded with data then switching to selected index
+        //         this.selectedIndex = props.selectedIndex === undefined ? '' : props.selectedIndex;
+        // }
+        /*end of facilitation*/
     }
 
     //most likely no longer useful
@@ -130,6 +147,24 @@ export default class BaseField extends Component {
     //         });
     //     }
     // }
+    /**
+     *
+     * Facilitate default values loaded from redux local storage
+     * @type {string|*}
+     *
+     * The properties passed to this component regard the value that previously
+     * occured in this component's parent and caller component before it was unmounted.
+     *
+     * @param nextProps the properties to look out for
+     * @param nextContext
+     *
+     */
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+        //these props are coming from the values that were recorded in redux
+        // in the respective parent component that this component has been called in
+        if (nextProps)
+            this.setState({previousValue: nextProps.defaultValue});
+    }
 
     //access these actions or states it using the diabled property
     // /**
@@ -379,14 +414,26 @@ this ${
             else if (this.internalFieldReference.current.tagName === 'SELECT')
                 //this check should only apply when there is a change in the select field
                 //check that this element has a value that has been selected as value 0 (which should never be selected
-                if (input.target.selectedIndex === 0)
-                    this._sayItemMustBeFilled(this.internalFieldReference.current.name)
-                else
-                    //remove any warning or error messages
-                {
+                if (input.target !== undefined) {
+                    if (input.target.selectedIndex === 0)
+                        this._sayItemMustBeFilled(this.internalFieldReference.current.name)
+                    else
+                        //remove any warning or error messages
+                    {
 
-                    this.removeContextMessageError();
-                    this.removeContextMessageWarning();
+                        this.removeContextMessageError();
+                        this.removeContextMessageWarning();
+                    }
+                } else {
+                    if (this.internalFieldReference.current.selectedIndex === 0)
+                        this._sayItemMustBeFilled(this.internalFieldReference.current.name)
+                    else
+                        //remove any warning or error messages
+                    {
+
+                        this.removeContextMessageError();
+                        this.removeContextMessageWarning();
+                    }
                 }
     }
 }

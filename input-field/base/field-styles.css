@@ -68,7 +68,9 @@ textarea {
   font-family: noto-sans-medium, sans-serif;
   resize: none;
 }
-
+legend:first-letter{
+  text-transform: uppercase;
+}
 legend,
 legend.w-auto {
   width: auto;

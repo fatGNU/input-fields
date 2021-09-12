@@ -43,7 +43,8 @@ export default class EmailField extends BaseField{
                     this.showContextMessageWarning("email format: identifier@domain_name.domain")
                 }
             }
-            } onBlur={() => {
+            } defaultValue={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>

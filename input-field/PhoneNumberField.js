@@ -41,8 +41,9 @@ export default class PhoneNumberField extends BaseField{
                     //show error message box with message there
                     this.showContextMessageWarning("Type in a proper Phone number!")
                 }
-            }
-            } onBlur={() => {
+            }}
+                   defaultValue={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>

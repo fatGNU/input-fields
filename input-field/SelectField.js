@@ -26,13 +26,13 @@ export default class SelectField extends BaseField {
      *
      */
     setOptions = (__options = this.options) => {
-        let keys = Object.getOwnPropertyNames(__options);
+        // let keys = Object.getOwnPropertyNames(__options);
         this.setState((state) => {
             state.options = [];
             __options.map((option) => {
                 let option_key = Object.getOwnPropertyNames(option);
                 state.options.push(
-                    <option index={option_key[0]}>{option[option_key[option_key.length - 1]]}</option>);
+                    <option value ={option_key[0]}>{option[option_key[option_key.length - 1]]}</option>);
             });
             return state;
         });
@@ -53,7 +53,7 @@ export default class SelectField extends BaseField {
      * @param nextContext This is irrelevant at this time...
      *
      */
-    componentWillReceiveProps = (nextProps, nextContext) => {
+    UNSAFE_componentWillReceiveProps = (nextProps, nextContext) => {
         //set options with next props options field
         if (nextProps.options === null)
             return;
@@ -82,6 +82,7 @@ export default class SelectField extends BaseField {
                             }
                             //find a way of changing the value of something from this point
                         }
+                        // selectedIndex={this.state.previousValue}
                         onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();

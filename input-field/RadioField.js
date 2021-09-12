@@ -20,8 +20,9 @@ export default class RadioField extends BaseField{
             <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
             <input {...this.required} ref = {this.internalFieldReference} name={this.name} className={"form-check-input"} type={"radio"} onFocus={this.highlightOnFocus} onChange={(e) => {
                 this.changecallback(e);
-            }
-            } onBlur={() => {
+            }}
+                   checked ={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>

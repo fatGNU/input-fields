@@ -13,13 +13,12 @@ export default class TextField extends BaseField {
     constructor(props) {
         super(props);
     }
-    //
-    // /**
-    //  * registers a field reference to this instance of component
-    //  */
-    // componentDidMount() {
-    //     // textFieldReference = this;
-    // }
+
+    /**
+     * registers a field reference to this instance of component
+     */
+    componentDidMount() {
+    }
 
     render = () => {
         /*
@@ -27,10 +26,12 @@ export default class TextField extends BaseField {
          */
         return (<fieldset className={`${col12} form-group border`}>
             <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
-            <input {...this.required} ref = {this.internalFieldReference} name={this.name} type={this.fieldType} onFocus={this.highlightOnFocus} onChange={(e) => {
-                    this.changecallback(e);
-            }
-            } onBlur={() => {
+            <input {...this.required} ref={this.internalFieldReference} name={this.name} type={this.fieldType}
+                   onFocus={this.highlightOnFocus} onChange={(e) => {
+                this.changecallback(e);
+            }}
+                   defaultValue={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>

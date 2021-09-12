@@ -23,7 +23,9 @@ export default class CheckBoxField extends BaseField {
                    onChange={(e) => {
                        this.changecallback(e);
                    }
-                   } onBlur={() => {
+                   }
+                   checked ={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>

@@ -41,7 +41,8 @@ export default class PassportField extends BaseField {
                     this.showContextMessageWarning("Type a valid passport number!")
                 }
             }
-            } onBlur={() => {
+            } defaultValue={this.state.previousValue}
+                   onBlur={() => {
                 this.evaluateControlOnRequired()
                 this.blurCallback();
             }}/>
