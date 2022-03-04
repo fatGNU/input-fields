@@ -1,38 +1,26 @@
 import BaseField from "./base/BaseField";
-import AddControl from "../controls/svg-controls/AddControl";
 
 /**
- *
- * FileSelectFieldIcon defines a means to choose only one file at a time
- * or multiple. This is done by issuing properties such as "with_multiple"
- * This component can also read files as base64. pass the "with_base_64" property
- *
- * The two referred properties can be passed without arguments. only their
- * presence is required to initiate the desired functionality.
- *
- * This component only hides the default file input field with a '+' icon.
- * it is purely for stylistic reasons only.
- *
+ * Class defines a svg-based buttons to invoke a attach document.
+ * The callback passed to it during its call defines its behaviour.
  */
-export default class FileSelectFieldIcon extends BaseField {
-    // eslint-disable-next-line no-useless-constructor
+export default class AttachFileField extends BaseField {
     constructor(props) {
         super(props);
-        this.callback = props.callback;
-        this.convert_to_base64 = props.with_base64 != null;
-        this.multiple_files = props.with_multiple != null;
-        this.base64StringArray = [];//for storage of file contents as a base64 string.
+        this.callback = props.changecallback;
+        this.closeControl = String('close-control');
+        this.style = props.style === undefined ? {width: 40, height: 40} : props.style;//square width and height of 60 px
         //special-bind the convertToBase64 method to this class so as to define it as an asynchronous method
         this.convertToBase64.bind(this);
         /*
-        * Create a mouse event/touch event that triggers when
-        * a click is made on an icon for a file.
-         */
-        this.triggerFileSelection = (e) => {
+                * Create a mouse event/touch event that triggers when
+                * a click is made on an icon for a file.
+                 */
+        this.triggerFileSelection = () => {
             let event = document.createEvent("MouseEvent");
             event.initEvent("click", false, true);
             this.internalFieldReference.current.dispatchEvent(event)
-        };
+        }
     }
 
     /**
@@ -46,7 +34,7 @@ export default class FileSelectFieldIcon extends BaseField {
      */
     convertToBase64 = (_file = File | Blob, callback = undefined) => {
         if (callback === undefined) {
-            throw new ReferenceError(`${this.readToBase64.name} requires a callback as a second argument.
+            throw new ReferenceError(`'convertToBase64' method requires a callback as a second argument.
             This is because this method's file-read activity is asynchronous and does not do well with returning
             its output. Pass a method reference(--without-arguments--) which will execute when
             the internal file-read-operation is complete.`);
@@ -64,44 +52,12 @@ export default class FileSelectFieldIcon extends BaseField {
                 // return fileString;
             };
         } else
-            throw new TypeError(`${this.readToBase64.name} method expected a file object. Found ${typeof _file}`);
+            throw new TypeError(`'convertToBase64' method expected a file object. Found ${typeof _file}`);
     }
-    // /**
-    //  *@Deprecated method by the super class's clearField method
-    //  *
-    //  * Clear file selections from list.
-    //  * --------------------------------
-    //  * This method is used when there is no page reload, and that a user may select
-    //  * another file using the same file input.
-    //  * Note: by default, this component allows multiple file selections. It does not enforce the number of
-    //  * files that can be selected in one go. Therefore this method must be called to effect this desired behaviour.
-    //  *
-    //  */
-    // clearSelectedFilesList = () => {
-    //     this.inputField.target.files = null;
-    // }
-    // /**
-    //  * @deprecated
-    //  * Method asynchronously reads and converts contents a file into a base64 string.
-    //  * @param file_object the file whose contents I want to read.
-    //  * @returns {Promise<void>}
-    //  */
-    // async convertToBase64(file_object) {
-    //     const fReader = new FileReader();
-    //     fReader.onload = (e) => {
-    //         // this.base64StringArray.push(e.readAsDataURL(file_object));
-    //         return e.readAsDataURL(file_object);
-    //     }
-    // }
-
 
     render = () => {
-        /*
-         * onFocus allows the legend to be changed
-         */
         return (
             <>
-                {/*the reference enables doing work on a given input field directly using instance methods*/}
                 <input ref={this.internalFieldReference} name={this.name} id={"file_ipt_field"}
                        style={{opacity: "0", height: 0, width: 0}}
                        type={"file"} onChange={(e) => {
@@ -121,12 +77,23 @@ export default class FileSelectFieldIcon extends BaseField {
                         //choose one file at a time
                         //make sure that if it's not a base64 string. Pick the first file as an object.
                         // this.callback(this.multiple_files ? e.target.files : e.target.files[0]);
-                        this.changecallback(e);
+                        this.props.changecallback(e);
                     }
                     //thjis does/should not have a blurcallback callback method invocation in here....
                 }
                 }/>
-                <AddControl callback={this.triggerFileSelection}/>
+                <svg style={{...this.style}}
+                     onClick={this.triggerFileSelection} className={`${this.className}`}
+                     width="24px"
+
+                     height="24px"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M21.4383 11.6622L12.2483 20.8522C11.1225 21.9781 9.59552 22.6106 8.00334 22.6106C6.41115 22.6106 4.88418 21.9781 3.75834 20.8522C2.63249 19.7264 2 18.1994 2 16.6072C2 15.015 2.63249 13.4881 3.75834 12.3622L12.9483 3.17222C13.6989 2.42166 14.7169 2 15.7783 2C16.8398 2 17.8578 2.42166 18.6083 3.17222C19.3589 3.92279 19.7806 4.94077 19.7806 6.00222C19.7806 7.06368 19.3589 8.08166 18.6083 8.83222L9.40834 18.0222C9.03306 18.3975 8.52406 18.6083 7.99334 18.6083C7.46261 18.6083 6.95362 18.3975 6.57834 18.0222C6.20306 17.6469 5.99222 17.138 5.99222 16.6072C5.99222 16.0765 6.20306 15.5675 6.57834 15.1922L15.0683 6.71222"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </>
         );
     }

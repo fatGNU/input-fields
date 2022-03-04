@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import "./field-styles.css";
-import {Message} from "../../misc-components/context-variables/ContextManager";
-import {nameFromVariableName} from "../../MiscUtils";
+import {nameFromVariableName} from "../../../../MiscUtils";
 
 //declare constants for fields that are clearable and can be cleared on the fly using the same means.
 //see the BaseField method 'clearField'
@@ -115,7 +114,7 @@ export default class BaseField extends Component {
         }
 
         //
-        // the code below will only work for child components or subclasses
+        // the code below will only work for child components_to_delete or subclasses
         //
         // if (this.internalFieldReference.current !== null) {
         //     if (this.internalFieldReference.current.tagName === 'input') {
@@ -381,13 +380,12 @@ this ${
         formattedFieldName = `${formattedFieldName} MUST BE FILLED!`
         this.showContextMessageError(formattedFieldName);
         //show a suitable message here
-        console.log(formattedFieldName);
         //this works: Now replace it with a messaging bubble
         // window.alert(formattedFieldName);
     }
     /**
      *
-     * execute this method when control is required. Cascade amongst all components.
+     * execute this method when control is required. Cascade amongst all components_to_delete.
      * but only execute them when the cursor blurs away
      * @param input the input to analyse
      *

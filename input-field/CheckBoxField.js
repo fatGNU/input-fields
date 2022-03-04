@@ -1,6 +1,5 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import {col12} from "../MiscUtils";
 
 /**
  *
@@ -17,18 +16,25 @@ export default class CheckBoxField extends BaseField {
         /*
          * onFocus allows the legend to be changed
          */
-        return (<fieldset className={`${col12} form-group border`}>
-            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
-            <input {...this.required} ref={this.internalFieldReference} name={this.name} type={"checkbox"} onFocus={this.highlightOnFocus}
+        return (<fieldset className={`form-group border`} style={this.props.style}>
+            <legend className={`${this.state.selection} w-auto`}
+                    style={{width: 'auto', fontSize: '99%'}}>
+                {this.fieldPlaceHolder}{this.isRequired}</legend>
+            <input {...this.required}
+                   ref={this.internalFieldReference}
+                   style={{width: '98%'}}
+                   name={this.name}
+                   type={"checkbox"}
+                   onFocus={this.highlightOnFocus}
                    onChange={(e) => {
                        this.changecallback(e);
                    }
                    }
-                   checked ={this.state.previousValue}
+                   checked={this.state.defaultValue}
                    onBlur={() => {
-                this.evaluateControlOnRequired()
-                this.blurCallback();
-            }}/>
+                       this.evaluateControlOnRequired()
+                       this.blurCallback();
+                   }}/>
         </fieldset>);
     }
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import BaseField from "./base/BaseField";
-import {col12} from "../MiscUtils";
 
 let textFieldReference = Object();
 /**
@@ -37,24 +36,25 @@ export default class NameField extends BaseField {
         /*
          * onFocus allows the legend to be changed
          */
-        return (<fieldset className={`${col12} form-group border`}>
-            <legend className={`${this.state.selection} w-auto`}>{this.fieldPlaceHolder}{this.isRequired}</legend>
-            <input {...this.required} ref={this.internalFieldReference} name={this.name} type={this.fieldType}
+        return (<fieldset className={`form-group border`} style={this.props.style}>
+            <legend className={`${this.state.selection} w-auto`}
+                    style={{width: 'auto', fontSize: '60%'}}>{this.fieldPlaceHolder}{this.isRequired}</legend>
+            <input {...this.required} ref={this.internalFieldReference} style={{width: '100%', fontSize: '70%'}}
+                   name={this.name} type={this.fieldType}
                    onFocus={this.highlightOnFocus} onChange={(e) => {
-                if (this.checkIfName(e)){
+                if (this.checkIfName(e)) {
                     this.removeContextMessageWarning();
-                 this.changecallback(e);
-                }
-                else {
+                    this.changecallback(e);
+                } else {
                     this.showContextMessageWarning('type a proper name!');
                 }
             }
             }
                    defaultValue={this.state.previousValue}
                    onBlur={() => {
-                this.evaluateControlOnRequired()
-                this.blurCallback();
-            }}/>
+                       this.evaluateControlOnRequired()
+                       this.blurCallback();
+                   }}/>
             {this.state.possibleContextMessageBox}
         </fieldset>);
     }
